@@ -1,0 +1,14 @@
+#!/bin/bash
+# From https://github.com/paulczar/omgwtfssl
+DOMAIN=${1:-"local.dev"}
+CA_EXPIRE=${CA_EXPIRE:-"360"}
+SSL_KEY=$DOMAIN-key.pem
+SSL_CSR=$DOMAIN-key.csr
+SSL_CERT=$DOMAIN.pem
+
+
+# Keep data in ${PWD}/certs folder
+docker run --rm -e SSL_SUBJECT=$DOMAIN -e CA_EXPIRE=$CA_EXPIRE \
+	-e SSL_KEY=$SSL_KEY -e SSL_CSR=$SSL_CSR -e SSL_CERT=$SSL_CERT \
+	-v ${PWD}/certs:/certs paulczar/omgwtfssl
+
